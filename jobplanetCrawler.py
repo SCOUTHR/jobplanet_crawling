@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
 
 def crawlApage():
     driver.implicitly_wait(1)
@@ -45,10 +46,14 @@ with open(filename+'.csv','w',-1,newline='',encoding='utf-8-sig') as f:
         for c in range(1,10):
             crawlApage()
             nextCompany = WebDriverWait(driver, 100).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#job_search_app > div > div.job_search_content > div.job_search_list > div.list > ul > li:nth-child(%d)" %(c+1))))
-            nextCompany.click()
+            try:
+                nextCompany.click()
+            except:
+                time.sleep(3)
+                nextCompany.click()
         if p in (0,1,2):
-            nextPage = driver.find_element_by_css_selector('#job_search_app > div > div.job_search_content > div.job_search_list > div.jply_pagination_ty1 > button:nth-child(%d)' %(p+2))
+            nextPage = WebDriverWait(driver, 100).until(EC.element_to_be_clickable((By.CSS_SELECTOR,'#job_search_app > div > div.job_search_content > div.job_search_list > div.jply_pagination_ty1 > button:nth-child(%d)' %(p+2))))
         else :
-            nextPage = driver.find_element_by_css_selector('#job_search_app > div > div.job_search_content > div.job_search_list > div.jply_pagination_ty1 > button:nth-child(6)')
+            nextPage = WebDriverWait(driver, 100).until(EC.element_to_be_clickable((By.CSS_SELECTOR,'#job_search_app > div > div.job_search_content > div.job_search_list > div.jply_pagination_ty1 > button:nth-child(6)')))
         nextPage.click()
         # nextPage.send_keys(Keys.ENTER)
