@@ -49,11 +49,15 @@ with open(filename+'.csv','w',-1,newline='',encoding='utf-8-sig') as f:
             try:
                 nextCompany.click()
             except:
-                time.sleep(3)
+                time.sleep(2)
                 nextCompany.click()
         if p in (0,1,2):
             nextPage = WebDriverWait(driver, 100).until(EC.element_to_be_clickable((By.CSS_SELECTOR,'#job_search_app > div > div.job_search_content > div.job_search_list > div.jply_pagination_ty1 > button:nth-child(%d)' %(p+2))))
         else :
             nextPage = WebDriverWait(driver, 100).until(EC.element_to_be_clickable((By.CSS_SELECTOR,'#job_search_app > div > div.job_search_content > div.job_search_list > div.jply_pagination_ty1 > button:nth-child(6)')))
-        nextPage.click()
+        try:
+            nextPage.click()
+        except:
+            time.sleep(2)
+            nextPage.click()
         # nextPage.send_keys(Keys.ENTER)
